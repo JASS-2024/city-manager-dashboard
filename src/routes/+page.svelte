@@ -1,19 +1,20 @@
 <script>
+  import CalendarWidget from "../widgets/CalendarWidget.svelte";
   import TestWidget from "../widgets/TestWidget.svelte";
-
 </script>
 
 <div id="grid-container">
-  <TestWidget />
-  <TestWidget />
-  <TestWidget />
-  <TestWidget />
+  <CalendarWidget />
+  <TestWidget --color="pink"/>
+  <TestWidget --color="blue"/>
+  <TestWidget --color="green"/>
 </div>
 
 <style>
   #grid-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
     height: 100%;
     width: 100%;
   }
