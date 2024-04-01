@@ -27,6 +27,7 @@
 	"type": "module",
 	"dependencies": {
 		"@event-calendar/day-grid": "^2.6.1",
+		"mqtt": "^5.5.0",
 		"svelte-grid": "^5.1.2"
 	}
 }

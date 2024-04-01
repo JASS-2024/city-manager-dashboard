@@ -1,12 +1,13 @@
 <script>
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
+  import MqttWidget from "../widgets/MqttWidget.svelte";
   import TestWidget from "../widgets/TestWidget.svelte";
 </script>
 
 <div id="grid-container">
   <CalendarWidget />
   <TestWidget --color="pink"/>
-  <TestWidget --color="blue"/>
+  <MqttWidget />
   <TestWidget --color="green"/>
 </div>
 
