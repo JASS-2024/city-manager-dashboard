@@ -1,2 +1,20 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+  import TestWidget from "../widgets/TestWidget.svelte";
+
+</script>
+
+<div id="grid-container">
+  <TestWidget />
+  <TestWidget />
+  <TestWidget />
+  <TestWidget />
+</div>
+
+<style>
+  #grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    height: 100%;
+    width: 100%;
+  }
+</style>
