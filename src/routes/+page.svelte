@@ -42,6 +42,7 @@
 
 </script>
 
+
 <div id="grid-container">
   {#each widgetsShown as {id, type}, index (id)}
     <div class="widget-wrapper">
