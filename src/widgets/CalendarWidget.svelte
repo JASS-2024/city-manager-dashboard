@@ -18,12 +18,10 @@
     };
 </script>
 
-<div id="calendarWidget">
+<div class="widget">
     <Calendar {plugins} {options}/>
 </div>
 
 <style>
-    #calendarWidget {
-        padding: 5%;
-    }
+    @import './WidgetStyles.css';
 </style>

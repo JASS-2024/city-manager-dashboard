@@ -23,8 +23,12 @@ onMount(() => {
 })
 </script>
 
-<div>
+<div class="widget">
 {#each messages as msg}
     <p>{msg}</p>
 {/each}
 </div>
+
+<style>
+    @import './WidgetStyles.css';
+</style>
