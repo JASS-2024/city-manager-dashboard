@@ -1,3 +1,9 @@
+<script lang="ts">
+    enum TypeOne {
+        Hop
+    }
+</script>
+
 <div id="testWidget">
     <div class="spacer"></div>
     <p id="duck">🦆</p>
