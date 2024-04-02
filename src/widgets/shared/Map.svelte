@@ -6,40 +6,31 @@
   enum Tile {
     RoadVertical = 'RoadVertical',
     RoadHorizontal = "RoadHorizontal",
-    Blank = "Blank",
+    Blank = "BlankBlack",
     CurveBL = "CurveBL",
     CurveBR = "CurveBR",
     CurveTR = "CurveTR",
     CurveTL = "CurveTL",
     GarageBottom = "GarageBottom",
+    GarageTripple = "GarageTripple",
+    GarageTrippleLeft = "GarageTrippleLeft",
+    Entrance = "Entrance",
+    IntersectionAll = "IntersectionAll",
+    IntersectionBottom = "IntersectionBottom",
   }
 
   let map = [
-    [
-      Tile.CurveBR,
-      Tile.RoadHorizontal,
-      Tile.RoadHorizontal,
-      Tile.RoadHorizontal,
-      Tile.GarageBottom,
-      Tile.GarageBottom,
-      Tile.GarageBottom,
-    ],
-    [
-      Tile.RoadVertical,
-      Tile.GarageBottom,
-      Tile.GarageBottom,
-      Tile.GarageBottom,
-      Tile.GarageBottom,
-      Tile.GarageBottom,
-      Tile.GarageBottom,
-    ],
-    [
-      Tile.CurveTR,
-      Tile.RoadHorizontal,
-      Tile.RoadHorizontal,
-      Tile.RoadHorizontal,
-      Tile.CurveTL,
-    ],
+    [Tile.CurveBR, Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal, Tile.CurveBL, Tile.Blank],
+    [Tile.RoadVertical,Tile.GarageBottom,Tile.GarageBottom,Tile.GarageBottom,Tile.Blank,Tile.GarageTrippleLeft,Tile.RoadVertical, Tile.Blank],
+    [Tile.CurveTR,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal, Tile.IntersectionBottom,Tile.RoadHorizontal,Tile.IntersectionAll,Tile.Entrance],
+    [Tile.Blank,Tile.Blank,Tile.Blank,Tile.Blank,Tile.RoadVertical, Tile.GarageTripple, Tile.RoadVertical, Tile.Blank],
+    [Tile.Blank,Tile.Blank,Tile.Blank,Tile.Blank,Tile.CurveTR, Tile.RoadHorizontal, Tile.CurveTL, Tile.Blank]
+
+  ];
+  let oldMap = [
+    [Tile.CurveBR, Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.Blank,Tile.Blank,Tile.Blank,],
+    [Tile.RoadVertical,Tile.GarageBottom,Tile.GarageBottom,Tile.GarageBottom,Tile.Blank,Tile.Blank,Tile.Blank,],
+    [Tile.CurveTR,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.CurveTL,],
   ];
 
   let maxWidth = Math.max(...map.map((row) => row.length))
