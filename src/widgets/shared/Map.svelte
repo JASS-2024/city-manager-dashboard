@@ -1,6 +1,4 @@
 <script lang="ts">
-  import TestWidget from "../TestWidget.svelte";
-
   import { onMount } from 'svelte';
 
   let canvas: HTMLCanvasElement;
@@ -22,18 +20,18 @@
       Tile.RoadHorizontal,
       Tile.RoadHorizontal,
       Tile.RoadHorizontal,
-      Tile.Blank,
-      Tile.Blank,
-      Tile.Blank,
+      Tile.GarageBottom,
+      Tile.GarageBottom,
+      Tile.GarageBottom,
     ],
     [
-      Tile.RoadHorizontal,
+      Tile.RoadVertical,
       Tile.GarageBottom,
       Tile.GarageBottom,
       Tile.GarageBottom,
-      Tile.Blank,
-      Tile.Blank,
-      Tile.Blank,
+      Tile.GarageBottom,
+      Tile.GarageBottom,
+      Tile.GarageBottom,
     ],
     [
       Tile.CurveTR,
@@ -45,22 +43,17 @@
   ];
 
   let maxWidth = Math.max(...map.map((row) => row.length))
-  console.log(maxWidth)
   let maxHeight = map.length
-  console.log(maxHeight)
 
   let images = new Map<Tile, HTMLImageElement>();
 
-  onMount(async () => {
-    let tileSize = Math.min(canvas.clientHeight / maxHeight, canvas.clientWidth / maxWidth) / 3;
-
-    
-    console.log(tileSize)
-    await loadImages();
-    if (canvas.getContext) {
-      const ctx = canvas.getContext('2d');
-      drawMap(ctx!, map, tileSize);
-    }
+  onMount(() => {
+    loadImages().then(refreshMapBackground);
+    const resizeObserver = new ResizeObserver(entries => {
+      refreshMapBackground()
+    });
+    resizeObserver.observe(canvas);
+    return () => resizeObserver.unobserve(canvas);
   });
 
   // Preload all tile images
@@ -81,22 +74,30 @@
     });
   }
 
-  function drawMap(ctx: CanvasRenderingContext2D, map : Tile[][], tileSize: number) {
+  function refreshMapBackground() {
+    if (canvas.getContext) {
+      canvas.width = canvas.clientWidth
+      canvas.height = canvas.clientHeight
+      let tileSize = Math.min(canvas.clientHeight / maxHeight, canvas.clientWidth / maxWidth);
+      const ctx = canvas.getContext('2d');
+      drawMapBackground(ctx!, map, tileSize);
+    }
+  }
+
+  function drawMapBackground(ctx: CanvasRenderingContext2D, map : Tile[][], tileSize: number) {
     map.forEach((row, y) => {
       row.forEach((tile, x) => {
         const img = images.get(tile);
         if (img) {
-          ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
+          ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize); //tileSize, tileSize);
+          console.log(x * tileSize)
         }
       });
     });
   }
 </script>
 
-<div>
-  <canvas id="map" bind:this={canvas}></canvas>
-</div>
-
+<canvas id="map" bind:this={canvas}></canvas>
 
 <style>
 #map {
