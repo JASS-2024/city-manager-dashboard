@@ -69,8 +69,6 @@ onMount(() => {
 <div class="widget">
     <Map on:send-data={updateTileSize} />
     <svg>
-        <circle cx={0} cy={0} r="10" fill="red" />
-
         {#each Object.entries(positions) as [topic, [x, y]]}
             <circle cx={mapPosX(x - 50, tileSize)} cy={mapPos(y-25, tileSize)} r="10" fill="red" />
         {/each}

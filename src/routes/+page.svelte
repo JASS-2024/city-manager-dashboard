@@ -16,12 +16,12 @@
 
   let widgetsShown = [
     { id: 1, type: CalendarWidget },
-    { id: 2, type: TwinWidget },
+    { id: 2, type: MqttWidget },
   ];
 
   const widgetTypeMap = {
     "Calendar": CalendarWidget,
-    "Digital Twin": TwinWidget,
+    "Digital Twin": MqttWidget,
     "Occupancy": MqttWidget,
     // Add other mappings as necessary...
   };
