@@ -2,11 +2,12 @@
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
   import MqttWidget from "../widgets/MqttWidget.svelte";
   import TestWidget from "../widgets/TestWidget.svelte";
+    import TwinWidget from "../widgets/TwinWidget.svelte";
 </script>
 
 <div id="grid-container">
   <CalendarWidget />
-  <TestWidget --color="pink"/>
+  <TwinWidget/>
   <MqttWidget />
   <TestWidget --color="green"/>
 </div>
