@@ -5,15 +5,13 @@ import { onMount } from "svelte";
 let messages = [];
 
 onMount(() => {
-    const URL = "wss://test.mosquitto.org:8081"
-    const TOPIC = "floor1/room1"
+    const URL = "ws://192.168.3.85:9001" // wss://test.mosquitto.org:8081
+    const TOPIC = "vehicle/+/status"
     const client = mqtt.connect(URL);
 
     client.on("connect", () => {
         client.subscribe(TOPIC, (err) => {
-            if (!err) {
-                client.publish(TOPIC, "Hello mqtt friends");
-            } else {
+            if (err) {
                 console.log(err)
             }
         });
