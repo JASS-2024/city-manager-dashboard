@@ -1,15 +1,19 @@
 <script lang="ts">
   import TestWidget from "../TestWidget.svelte";
 
+  import { onMount } from 'svelte';
+
+  let canvas: HTMLCanvasElement;
+
   enum Tile {
-    RoadVertical,
-    RoadHorizontal,
-    Blank,
-    CurveBL,
-    CurveBR,
-    CurveTR,
-    CurveTL,
-    GarageBottom,
+    RoadVertical = 'RoadVertical',
+    RoadHorizontal = "RoadHorizontal",
+    Blank = "Blank",
+    CurveBL = "CurveBL",
+    CurveBR = "CurveBR",
+    CurveTR = "CurveTR",
+    CurveTL = "CurveTL",
+    GarageBottom = "GarageBottom",
   }
 
   let map = [
@@ -40,33 +44,63 @@
     ],
   ];
 
-  function visualize(tile: Tile) {
-    switch (tile) {
-      case Tile.RoadVertical:
-        return "|";
-      case Tile.RoadHorizontal:
-        return "=";
-      case Tile.Blank:
-        return " ";
-      case Tile.CurveBL:
-        return "T";
-      case Tile.CurveBR:
-        return "T";
-      case Tile.CurveTR:
-        return "L";
-      case Tile.CurveTL:
-        return "2";
-      case Tile.GarageBottom:
-        return "^";
+  let maxWidth = Math.max(...map.map((row) => row.length))
+  console.log(maxWidth)
+  let maxHeight = map.length
+  console.log(maxHeight)
+
+  let images = new Map<Tile, HTMLImageElement>();
+
+  onMount(async () => {
+    let tileSize = Math.min(canvas.clientHeight / maxHeight, canvas.clientWidth / maxWidth) / 3;
+
+    
+    console.log(tileSize)
+    await loadImages();
+    if (canvas.getContext) {
+      const ctx = canvas.getContext('2d');
+      drawMap(ctx!, map, tileSize);
     }
+  });
+
+  // Preload all tile images
+  async function loadImages() {
+    const tileTypes = Object.values(Tile);
+    const loadImage = (imageType: Tile) => new Promise<[Tile, HTMLImageElement]>((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve([imageType, img]);
+      img.src = `assets/tiles/${imageType}.png`; // Adjust path as necessary
+    })
+
+    const imagePromises = tileTypes.map(loadImage);
+    const loadedImages = await Promise.all(imagePromises);
+
+    // Store loaded images in an object for easy access
+    loadedImages.forEach(([imageType, img]) => {
+      images.set(imageType, img);
+    });
+  }
+
+  function drawMap(ctx: CanvasRenderingContext2D, map : Tile[][], tileSize: number) {
+    map.forEach((row, y) => {
+      row.forEach((tile, x) => {
+        const img = images.get(tile);
+        if (img) {
+          ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
+        }
+      });
+    });
   }
 </script>
 
 <div>
-  {#each map as row}
-    {#each row as tile}
-      {visualize(tile)}
-    {/each}
-    <br />
-  {/each}
+  <canvas id="map" bind:this={canvas}></canvas>
 </div>
+
+
+<style>
+#map {
+  width: 100%;
+  height: 100%;
+}
+</style>
