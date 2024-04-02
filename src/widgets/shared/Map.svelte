@@ -3,35 +3,12 @@
 
   let canvas: HTMLCanvasElement;
 
-  enum Tile {
-    RoadVertical = 'RoadVertical',
-    RoadHorizontal = "RoadHorizontal",
-    Blank = "BlankBlack",
-    CurveBL = "CurveBL",
-    CurveBR = "CurveBR",
-    CurveTR = "CurveTR",
-    CurveTL = "CurveTL",
-    GarageBottom = "GarageBottom",
-    GarageTripple = "GarageTripple",
-    GarageTrippleLeft = "GarageTrippleLeft",
-    Entrance = "Entrance",
-    IntersectionAll = "IntersectionAll",
-    IntersectionBottom = "IntersectionBottom",
-  }
+  import {Tile, map} from "$lib/Utils"
 
-  let map = [
-    [Tile.CurveBR, Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal, Tile.CurveBL, Tile.Blank],
-    [Tile.RoadVertical,Tile.GarageBottom,Tile.GarageBottom,Tile.GarageBottom,Tile.Blank,Tile.GarageTrippleLeft,Tile.RoadVertical, Tile.Blank],
-    [Tile.CurveTR,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal, Tile.IntersectionBottom,Tile.RoadHorizontal,Tile.IntersectionAll,Tile.Entrance],
-    [Tile.Blank,Tile.Blank,Tile.Blank,Tile.Blank,Tile.RoadVertical, Tile.GarageTripple, Tile.RoadVertical, Tile.Blank],
-    [Tile.Blank,Tile.Blank,Tile.Blank,Tile.Blank,Tile.CurveTR, Tile.RoadHorizontal, Tile.CurveTL, Tile.Blank]
+  import { createEventDispatcher } from 'svelte';
 
-  ];
-  let oldMap = [
-    [Tile.CurveBR, Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.Blank,Tile.Blank,Tile.Blank,],
-    [Tile.RoadVertical,Tile.GarageBottom,Tile.GarageBottom,Tile.GarageBottom,Tile.Blank,Tile.Blank,Tile.Blank,],
-    [Tile.CurveTR,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.CurveTL,],
-  ];
+  const dispatch = createEventDispatcher();
+
 
   let maxWidth = Math.max(...map.map((row) => row.length))
   let maxHeight = map.length
@@ -70,6 +47,7 @@
       canvas.width = canvas.clientWidth
       canvas.height = canvas.clientHeight
       let tileSize = Math.min(canvas.clientHeight / maxHeight, canvas.clientWidth / maxWidth);
+      dispatch('send-data', tileSize);
       const ctx = canvas.getContext('2d');
       drawMapBackground(ctx!, map, tileSize);
     }
@@ -80,8 +58,7 @@
       row.forEach((tile, x) => {
         const img = images.get(tile);
         if (img) {
-          ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize); //tileSize, tileSize);
-          console.log(x * tileSize)
+          ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
         }
       });
     });
