@@ -11,6 +11,8 @@ type Positions = {
     [key: string]: [number, number];
 };
 
+
+
 let tileSize = 0;
 
 // Initialize the positions object with the defined type
@@ -23,6 +25,12 @@ function updateTileSize(event: CustomEvent<number>) {
 }
 
 function mapPos(x: number, tile: number): number {
+    console.log(`y:${x}`)
+    return (x / 10) * tile
+}
+
+function mapPosX(x: number, tile: number): number {
+    console.log(`x:${x}`)
     return (x / 10) * tile
 }
 
@@ -40,7 +48,7 @@ onMount(() => {
     });
 
     client.on("message", (topic, message) => {
-        console.log("message")
+        console.log(`message: ${topic}`)
         const jsonObject = JSON.parse(message.toString());
 
         // Safely access the x and y values
@@ -48,10 +56,9 @@ onMount(() => {
         const y = jsonObject?.data?.coordinates?.y;
 
         if (typeof x === "number" && typeof y === "number") {
-            console.log("updating pos")
             // Store the coordinates as an array [x, y] against the topic key
             positions = {...positions, topic: [x,y]}
-            console.log(positions)
+            console.log(`x: ${x} y: ${y}`)
         } else {
             console.log(`Invalid coordinates received for topic ${topic}`);
         }
@@ -62,10 +69,11 @@ onMount(() => {
 <div class="widget">
     <Map on:send-data={updateTileSize} />
     <svg>
+        <circle cx={0} cy={0} r="10" fill="red" />
+
         {#each Object.entries(positions) as [topic, [x, y]]}
-            
-            <circle cx={mapPos(x, tileSize)} cy={mapPos(y, tileSize)} r="10" fill="red" />
-  {/each}
+            <circle cx={mapPosX(x - 50, tileSize)} cy={mapPos(y-25, tileSize)} r="10" fill="red" />
+        {/each}
 </svg>
 
 </div>
