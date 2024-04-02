@@ -1,15 +1,19 @@
 <script>
+  import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
   import MqttWidget from "../widgets/MqttWidget.svelte";
   import TestWidget from "../widgets/TestWidget.svelte";
-    import TwinWidget from "../widgets/TwinWidget.svelte";
+  import TwinWidget from "../widgets/TwinWidget.svelte";
+
+let widgets = [CalendarWidget, TwinWidget, MqttWidget, AddWidget]
 </script>
 
+
 <div id="grid-container">
-  <CalendarWidget />
-  <TwinWidget/>
-  <MqttWidget />
-  <TestWidget --color="green"/>
+  {#each widgets as widget}
+   <svelte:component this={widget}/>
+  {/each}
+  
 </div>
 
 <style>
