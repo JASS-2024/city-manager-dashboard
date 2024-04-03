@@ -40,6 +40,7 @@
     );
   }
 
+  
 </script>
 
 
@@ -65,7 +66,7 @@
   }
   .widget-wrapper {
     position: relative;
-    border: 1px solid #ccc;
+    background-color: white;
     border-radius: 25px;
     padding: 40px;
     box-sizing: border-box;
@@ -74,6 +75,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 
   .controls {
@@ -82,5 +84,9 @@
     right: 5px;
     display: flex;
     flex-direction: row;
+  }
+
+  :global(body){
+    background: #edf3ff;
   }
 </style>

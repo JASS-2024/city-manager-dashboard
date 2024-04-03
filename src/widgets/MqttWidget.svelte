@@ -70,7 +70,7 @@ onMount(() => {
     <Map on:send-data={updateTileSize} />
     <svg>
         {#each Object.entries(positions) as [topic, [x, y]]}
-            <circle cx={mapPosX(x - 50, tileSize)} cy={mapPos(y-25, tileSize)} r="10" fill="red" />
+            <circle cx={mapPosX(-x + 110, tileSize)} cy={mapPos(y-25, tileSize)} r="10" fill="red" />
         {/each}
 </svg>
 
