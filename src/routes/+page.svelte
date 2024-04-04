@@ -2,27 +2,32 @@
   import { onMount } from 'svelte';
   import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
-  import MqttWidget from "../widgets/MqttWidget.svelte";
   import TestWidget from "../widgets/TestWidget.svelte";
   import TwinWidget from "../widgets/TwinWidget.svelte";
   import DeleteWidget from '../widgets/DeleteWidget.svelte';
   import EditWidget from '../widgets/EditWidget.svelte';
+  import OccupancyWidget from '../widgets/OccupancyWidget.svelte';
+
 
   let widgets = [
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
-    { id: 3, type: MqttWidget },
+    { id: 3, type: OccupancyWidget },
+
   ];
 
   let widgetsShown = [
     { id: 1, type: CalendarWidget },
-    { id: 2, type: MqttWidget },
+    { id: 2, type: TwinWidget },
+    { id: 3, type: OccupancyWidget },
+
   ];
 
   const widgetTypeMap = {
     "Calendar": CalendarWidget,
-    "Digital Twin": MqttWidget,
-    "Occupancy": MqttWidget,
+    "Digital Twin": TwinWidget,
+    "Occupancy": OccupancyWidget,
+
   };
 
   function removeWidget(id) {

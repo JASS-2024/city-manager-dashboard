@@ -4,14 +4,13 @@
     
     import Map from "./shared/Map.svelte";
     
-    //let messages = [];
     type Positions = {
         [key: string]: [number, number];
     };
     
     
     
-    let tileSize = 0;
+    let tileSize = 10;
     
     // Initialize the positions object with the defined type
     let positions: Positions = {
@@ -22,12 +21,12 @@
         positions = { ...positions };
     }
     
-    function mapPos(x: number, tile: number, topic: string): number {
+    function mapPos(x: number, tile: number): number {
         console.log(`y:${x}`)
         return (x / 10) * tile
     }
     
-    function mapPosX(x: number, tile: number, topic: string): number {
+    function mapPosX(x: number, tile: number): number {
         console.log(`x:${x}`)
         return (x / 10) * tile
     }
@@ -75,9 +74,9 @@
         <Map on:send-data={updateTileSize} />
         <svg>
             {#each Object.entries(positions) as [topic, [x, y]]}
-                <circle cx={mapPosX(x, tileSize, topic)} cy={mapPos(y, tileSize, topic)} r="10" fill="red" />
-                <text x={mapPosX(x, tileSize, topic)} y={mapPos(y, tileSize, topic) + 15} fill="white" font-size="10" text-anchor="middle" dominant-baseline="central">
-                    {topic}
+            <image href="./assets/duck.png" x={mapPosX(x, tileSize) - tileSize/2} y={mapPos(y, tileSize) - tileSize/2} width={tileSize / 2} height={tileSize / 2} />        
+            <text class="caption" x={mapPosX(x, tileSize)} y={mapPos(y + 2, tileSize)} font-size="13" text-anchor="middle" dominant-baseline="central">
+                   {topic}
                 </text>
             {/each}
     </svg>
@@ -96,5 +95,12 @@
         left: 0;
         width: 100%;
         height: 100%;
+      }
+
+      .caption {
+        border-radius: 5px;
+        border: 2px solid blue;
+        fill: white;
+        padding: 5px;
       }
     </style>
