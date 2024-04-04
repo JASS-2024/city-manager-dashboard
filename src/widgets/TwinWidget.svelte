@@ -63,7 +63,11 @@
         <Map on:send-data={updateTileSize} />
         <svg>
             {#each Object.entries(positions) as [topic, [x, y]]}
-            <image href="./assets/duck.png" x={mapPosX(x, tileSize) - tileSize/2} y={mapPos(y, tileSize) - tileSize/2} width={tileSize / 2} height={tileSize / 2} />        
+            {#if !topic.includes("camera")}
+            <image href="./assets/duck.png" x={mapPosX(x, tileSize) - tileSize/2} y={mapPos(y, tileSize) - tileSize/2} width={tileSize / 2} height={tileSize / 2} /> 
+            {:else}       
+            <image href="./assets/duck_camera.png" x={mapPosX(x, tileSize) - tileSize/2} y={mapPos(y, tileSize) - tileSize/2} width={tileSize / 2} height={tileSize / 2} /> 
+            {/if}
             {@const { width, height } = estimateBackgroundSize(topic, 13)}
             <rect x={mapPosX(x, tileSize) - width / 2} y={mapPos(y + 2, tileSize) - height / 2} width={width} height={height} fill="white" rx="5"/>
             <text class="caption" x={mapPosX(x, tileSize)} y={mapPos(y + 2, tileSize)} font-size="13" text-anchor="middle" dominant-baseline="central">
