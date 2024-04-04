@@ -22,12 +22,12 @@
     }
     
     function mapPos(x: number, tile: number): number {
-        console.log(`y:${x}`)
+        //console.log(`y:${x}`)
         return (x / 10) * tile
     }
     
     function mapPosX(x: number, tile: number): number {
-        console.log(`x:${x}`)
+        //console.log(`x:${x}`)
         return (x / 10) * tile
     }
     
@@ -52,7 +52,7 @@
         });
     
         client.on("message", (topic, message) => {
-            console.log(`message: ${topic}`)
+            //console.log(`message: ${topic}`)
             const jsonObject = JSON.parse(message.toString());
     
             // Safely access the x and y values
@@ -62,9 +62,9 @@
             if (typeof x === "number" && typeof y === "number") {
                 // Store the coordinates as an array [x, y] against the topic key
                 positions = {...positions, [topic]: [x,y]}
-                console.log(`x: ${x} y: ${y}`)
+                //console.log(`x: ${x} y: ${y}`)
             } else {
-                console.log(`Invalid coordinates received for topic ${topic}`);
+                //console.log(`Invalid coordinates received for topic ${topic}`);
             }
         });
     })

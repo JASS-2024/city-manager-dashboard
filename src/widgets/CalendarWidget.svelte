@@ -3,6 +3,7 @@
     import TimeGrid from '@event-calendar/time-grid';
 
     // const sampleDatae = 
+    
     const data = {
         bookings: [{
             "garage": "Athena Garage",
