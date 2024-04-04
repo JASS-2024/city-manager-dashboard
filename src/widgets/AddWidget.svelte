@@ -4,7 +4,7 @@
     
     let showDropdown = false;
     let container;
-    let widgetOptions = ["Calendar", "Digital Twin", "Occupancy"];
+    let widgetOptions = ["Calendar", "Digital Twin", "Occupancy", "Auction"];
     
     function addNewWidget(widgetType) {
       dispatch('addNewWidget', { widgetType });

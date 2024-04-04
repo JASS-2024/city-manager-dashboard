@@ -21,12 +21,12 @@
     }
     
     function mapPos(x: number, tile: number): number {
-        console.log(`y:${x}`)
+        //console.log(`y:${x}`)
         return (x / 10) * tile
     }
     
     function mapPosX(x: number, tile: number): number {
-        console.log(`x:${x}`)
+        //console.log(`x:${x}`)
         return (x / 10) * tile
     }
     

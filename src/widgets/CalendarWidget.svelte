@@ -14,6 +14,10 @@
 
     let events: Event[] = []
     let options;
+    const garageToColours: Map<String, string> = new Map([
+        ["Athena Garage", "red"],
+        ["Leda Garage", "blue"]
+    ])
 
     bookings.subscribe((bookings) => {
         events = bookings.map((booking: Booking, i: number) => ({
@@ -25,10 +29,7 @@
         }))
     })
 
-    const garageToColours: Map<String, string> = new Map([
-        ["Athena Garage", "red"],
-        ["Leda Garage", "blue"]
-    ])
+
     
     let plugins = [ TimeGrid ];
     $: options = {

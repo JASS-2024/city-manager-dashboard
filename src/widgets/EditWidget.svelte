@@ -6,7 +6,7 @@
   export let icon = "✏️"
   let show = false;
   let container;
-  let widgetNames = ["Calendar", "Digital Twin", "Occupancy"];
+  let widgetNames = ["Calendar", "Digital Twin", "Occupancy", "Auction"];
 
   function onWindowClick(e) {
     if (!container.contains(e.target))

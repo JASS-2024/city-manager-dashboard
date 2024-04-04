@@ -8,12 +8,13 @@
   import EditWidget from '../widgets/EditWidget.svelte';
   import { getBookings } from '$lib/bookings';
   import OccupancyWidget from '../widgets/OccupancyWidget.svelte';
-
+  import AuctionWidget from '../widgets/AuctionWidget.svelte';
 
   let widgets = [
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
     { id: 3, type: OccupancyWidget },
+    { id: 4, type: AuctionWidget },
 
   ];
 
@@ -21,6 +22,7 @@
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
     { id: 3, type: OccupancyWidget },
+    { id: 4, type: AuctionWidget },
 
   ];
 
@@ -28,7 +30,7 @@
     "Calendar": CalendarWidget,
     "Digital Twin": TwinWidget,
     "Occupancy": OccupancyWidget,
-
+    "Auction": AuctionWidget
   };
 
   function removeWidget(id) {
