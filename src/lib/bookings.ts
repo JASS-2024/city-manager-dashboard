@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { subscribe } from './mqtt';
 
 export const bookings = writable([]);
 

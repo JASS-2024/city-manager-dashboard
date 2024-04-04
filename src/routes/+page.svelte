@@ -2,13 +2,13 @@
   import { onMount } from 'svelte';
   import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
-  import TestWidget from "../widgets/TestWidget.svelte";
   import TwinWidget from "../widgets/TwinWidget.svelte";
   import DeleteWidget from '../widgets/DeleteWidget.svelte';
   import EditWidget from '../widgets/EditWidget.svelte';
-  import { getBookings } from '$lib/bookings';
   import OccupancyWidget from '../widgets/OccupancyWidget.svelte';
   import AuctionWidget from '../widgets/AuctionWidget.svelte';
+  import { getBookings } from '$lib/bookings';
+  import { subscribe } from '$lib/mqtt';
 
   let widgets = [
     { id: 1, type: CalendarWidget },
@@ -48,9 +48,6 @@
   }
 
   
-  // Temporarily HERE
-  onMount(getBookings)
-
   let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
   
   function handleAddWidget({ detail }) {
@@ -60,6 +57,12 @@
       widgetsShown = [...widgetsShown, { id: nextWidgetId++, type: newWidgetComponent }];
     }
   }
+  
+  onMount(async () => {
+    getBookings()
+    subscribe("dashboard/new_booking", getBookings)
+  })
+
 </script>
 
 
