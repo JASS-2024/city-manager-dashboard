@@ -7,6 +7,7 @@ export enum Tile {
     CurveTR = "CurveTR",
     CurveTL = "CurveTL",
     GarageBottom = "GarageBottom",
+    GarageBottomCharge = "GarageBottomCharge",
     GarageTripple = "GarageTripple",
     GarageTrippleLeft = "GarageTrippleLeft",
     Entrance = "Entrance",
@@ -16,7 +17,7 @@ export enum Tile {
 
   export const map: Tile[][] = [
     [Tile.CurveBR, Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal, Tile.CurveBL, Tile.Blank],
-    [Tile.RoadVertical,Tile.GarageBottom,Tile.GarageBottom,Tile.GarageBottom,Tile.Blank,Tile.GarageTrippleLeft,Tile.RoadVertical, Tile.Blank],
+    [Tile.RoadVertical,Tile.GarageBottom,Tile.GarageBottom,Tile.GarageBottomCharge,Tile.Blank,Tile.GarageTrippleLeft,Tile.RoadVertical, Tile.Blank],
     [Tile.CurveTR,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal, Tile.IntersectionBottom,Tile.RoadHorizontal,Tile.IntersectionAll,Tile.Entrance],
     [Tile.Blank,Tile.Blank,Tile.Blank,Tile.Blank,Tile.RoadVertical, Tile.GarageTripple, Tile.RoadVertical, Tile.Blank],
     [Tile.Blank,Tile.Blank,Tile.Blank,Tile.Blank,Tile.CurveTR, Tile.RoadHorizontal, Tile.CurveTL, Tile.Blank]

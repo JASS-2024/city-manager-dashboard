@@ -60,7 +60,6 @@ function getCurrentBookings(bookings: Booking[]): Booking[] {
         booking.time_period.start_time <= currentTime && 
         booking.time_period.end_time >= currentTime
     );
-    console.log(`current bookings ${newCurrentBookings}`)
     Object.keys(slots).forEach(id => {
         // Check if this slot ID is occupied in current bookings
         const isOccupied = newCurrentBookings.some(booking => booking.parking_space === Number(id));

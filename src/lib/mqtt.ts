@@ -10,7 +10,7 @@ const clientPromise = mqtt.connectAsync(URL).then((client) => {
             }
         }
     })
-    return client   
+    return client
 });
 
 let handlers: [string, OnMessageCallback][] = []
