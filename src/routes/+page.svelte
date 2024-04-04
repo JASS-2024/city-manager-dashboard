@@ -2,29 +2,33 @@
   import { onMount } from 'svelte';
   import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
-  import MqttWidget from "../widgets/MqttWidget.svelte";
   import TestWidget from "../widgets/TestWidget.svelte";
   import TwinWidget from "../widgets/TwinWidget.svelte";
   import DeleteWidget from '../widgets/DeleteWidget.svelte';
   import EditWidget from '../widgets/EditWidget.svelte';
   import { getBookings } from '$lib/bookings';
+  import OccupancyWidget from '../widgets/OccupancyWidget.svelte';
+
 
   let widgets = [
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
-    { id: 3, type: MqttWidget }
+    { id: 3, type: OccupancyWidget },
+
   ];
 
   let widgetsShown = [
     { id: 1, type: CalendarWidget },
-    { id: 2, type: MqttWidget },
+    { id: 2, type: TwinWidget },
+    { id: 3, type: OccupancyWidget },
+
   ];
 
   const widgetTypeMap = {
     "Calendar": CalendarWidget,
-    "Digital Twin": MqttWidget,
-    "Occupancy": MqttWidget,
-    // Add other mappings as necessary...
+    "Digital Twin": TwinWidget,
+    "Occupancy": OccupancyWidget,
+
   };
 
   function removeWidget(id) {
@@ -45,6 +49,15 @@
   // Temporarily HERE
   onMount(getBookings)
 
+  let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
+  
+  function handleAddWidget({ detail }) {
+    const { widgetType } = detail;
+    const newWidgetComponent = widgetTypeMap[widgetType];
+    if (newWidgetComponent) {
+      widgetsShown = [...widgetsShown, { id: nextWidgetId++, type: newWidgetComponent }];
+    }
+  }
 </script>
 
 
@@ -57,7 +70,10 @@
         <EditWidget widgetId={id} on:select={handleSelect}/>
       </div>
     </div>
- {/each}
+  {/each}
+  {#if widgetsShown.length < 4}
+  <AddWidget on:addNewWidget={handleAddWidget} />
+  {/if}
 </div>
 
 <style>
@@ -70,7 +86,7 @@
   }
   .widget-wrapper {
     position: relative;
-    border: 1px solid #ccc;
+    background-color: white;
     border-radius: 25px;
     padding: 40px;
     box-sizing: border-box;
@@ -79,6 +95,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 
   .controls {
@@ -87,5 +104,9 @@
     right: 5px;
     display: flex;
     flex-direction: row;
+  }
+
+  :global(body){
+    background: #edf3ff;
   }
 </style>

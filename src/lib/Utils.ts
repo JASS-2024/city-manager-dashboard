@@ -26,3 +26,10 @@ export enum Tile {
     [Tile.RoadVertical,Tile.GarageBottom,Tile.GarageBottom,Tile.GarageBottom,Tile.Blank,Tile.Blank,Tile.Blank,],
     [Tile.CurveTR,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.RoadHorizontal,Tile.CurveTL,],
   ];
+
+  export const parkingSpots = {
+    1: [15, 12],
+    2: [25, 12],
+    3: [35, 12],
+
+  }
