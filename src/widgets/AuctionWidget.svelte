@@ -55,10 +55,10 @@ function generateRandomBooking(now) {
     };
   }
 
-setInterval(() => {
+/*setInterval(() => {
         bookings.set([generateRandomBooking(new Date)]);
         console.log('Bookings updated:', bookings);
-        }, 5000);
+        }, 5000);*/
 </script>
 
 <style>
