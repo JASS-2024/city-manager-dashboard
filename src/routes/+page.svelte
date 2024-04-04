@@ -14,6 +14,7 @@
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
     { id: 3, type: OccupancyWidget },
+    { id: 4, type: AuctionWidget },
 
   ];
 
@@ -21,6 +22,7 @@
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
     { id: 3, type: OccupancyWidget },
+    { id: 4, type: AuctionWidget },
 
   ];
 
