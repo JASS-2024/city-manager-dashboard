@@ -7,6 +7,7 @@
   import TwinWidget from "../widgets/TwinWidget.svelte";
   import DeleteWidget from '../widgets/DeleteWidget.svelte';
   import EditWidget from '../widgets/EditWidget.svelte';
+  import { getBookings } from '$lib/bookings';
 
   let widgets = [
     { id: 1, type: CalendarWidget },
@@ -40,6 +41,10 @@
     );
   }
 
+  
+  // Temporarily HERE
+  onMount(getBookings)
+
 </script>
 
 
@@ -52,7 +57,7 @@
         <EditWidget widgetId={id} on:select={handleSelect}/>
       </div>
     </div>
-  {/each}
+ {/each}
 </div>
 
 <style>
