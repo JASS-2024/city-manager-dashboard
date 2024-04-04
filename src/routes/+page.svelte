@@ -6,6 +6,7 @@
   import TwinWidget from "../widgets/TwinWidget.svelte";
   import DeleteWidget from '../widgets/DeleteWidget.svelte';
   import EditWidget from '../widgets/EditWidget.svelte';
+  import { getBookings } from '$lib/bookings';
   import OccupancyWidget from '../widgets/OccupancyWidget.svelte';
   import AuctionWidget from  '../widgets/AuctionWidget.svelte';
 
@@ -46,6 +47,10 @@
       widget.id === widgetId ? { ...widget, type: newWidgetType } : widget
     );
   }
+
+  
+  // Temporarily HERE
+  onMount(getBookings)
 
   let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
   
