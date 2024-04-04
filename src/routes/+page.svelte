@@ -11,7 +11,7 @@
   let widgets = [
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
-    { id: 3, type: MqttWidget }
+    { id: 3, type: MqttWidget },
   ];
 
   let widgetsShown = [
@@ -23,7 +23,6 @@
     "Calendar": CalendarWidget,
     "Digital Twin": MqttWidget,
     "Occupancy": MqttWidget,
-    // Add other mappings as necessary...
   };
 
   function removeWidget(id) {
@@ -40,7 +39,15 @@
     );
   }
 
+  let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
   
+  function handleAddWidget({ detail }) {
+    const { widgetType } = detail;
+    const newWidgetComponent = widgetTypeMap[widgetType];
+    if (newWidgetComponent) {
+      widgetsShown = [...widgetsShown, { id: nextWidgetId++, type: newWidgetComponent }];
+    }
+  }
 </script>
 
 
@@ -54,6 +61,9 @@
       </div>
     </div>
   {/each}
+  {#if widgetsShown.length < 4}
+  <AddWidget on:addNewWidget={handleAddWidget} />
+  {/if}
 </div>
 
 <style>
