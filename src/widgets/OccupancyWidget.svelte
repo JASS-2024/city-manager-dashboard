@@ -1,5 +1,26 @@
 <script lang="ts">
     import Map from "./shared/Map.svelte";
+    import { bookings } from '$lib/bookings';
+
+
+   
+
+    let slots: Slots = {
+    1: [17, 16, false],
+    2: [27, 16, false],
+    3: [37, 16, false],
+    4: [55, 16, false],
+    5: [60, 10.5, false],
+    6: [60, 15.5, false], //
+    7: [60, 33.5, false],
+    8: [55, 30, false],
+    9: [55, 36, false],
+
+    }
+    bookings.subscribe((bookings) => {
+        console.log(bookings)
+        slots = getCurrentBookings(bookings)
+    })
 
     type Slots = {
         [key: number]: [number, number, boolean];
@@ -14,15 +35,16 @@
     parking_space: number;
     price: number;
 };
+
 function generateRandomBooking(now): Booking {
   const isCurrent = Math.random() > 0.5; // 50% chance the booking is current
   const startOffset = isCurrent ? 0 : (Math.floor(Math.random() * 10) + 1) * 60000; // Start time offset in milliseconds
   const endOffset = startOffset + (Math.floor(Math.random() * 5) + 1) * 60000; // End time at least 1 minute after start
 
   return {
-    garage: `Garage ${Math.ceil(Math.random() * 10)}`, // Example garage name
+    garage: `Athena Garage`, // Example garage name
     time_period: {
-      start_time: new Date(now.getTime()  - 10 * 60000/*+ startOffset*/),
+      start_time: new Date(now.getTime()  - 60 * 60000 + startOffset),
       end_time: new Date(now.getTime() + endOffset),
     },
     licence_plate: `ABC${Math.ceil(Math.random() * 999)}`, // Example license plate
@@ -31,38 +53,9 @@ function generateRandomBooking(now): Booking {
   };
 }
 
-function switchBookings(bookings) {
-  const now = new Date();
-  for (let i = 0; i < bookings.length; i++) {
-    bookings[i] = generateRandomBooking(now);
-  }
-}
-const now = new Date();
-// Example initial bookings array
-let bookings = [
-  generateRandomBooking(new Date()),
-  generateRandomBooking(new Date()),
-  generateRandomBooking(new Date()),
-  {
-    "garage": "Athena Garage",
-    "time_period": {
-        "start_time": new Date(now.getTime() - 5 * 60000),
-    "end_time": new Date(now.getTime() + 10 * 60000)
-    },
-    "licence_plate": "ABC123",
-    "parking_space": 1,
-    "price": 100
- }
-];
-
-// Switch bookings every 5 seconds
-setInterval(() => {
-  switchBookings(bookings);
-  console.log('Bookings updated:', bookings);
-}, 10000);
-
 function getCurrentBookings(bookings: Booking[]): Booking[] {
     const currentTime = new Date(); // Get the current time
+    console.log(`current time: ${currentTime}`)
     let newCurrentBookings = bookings.filter(booking => 
         booking.time_period.start_time <= currentTime && 
         booking.time_period.end_time >= currentTime
@@ -70,26 +63,16 @@ function getCurrentBookings(bookings: Booking[]): Booking[] {
     console.log(`current bookings ${newCurrentBookings}`)
     Object.keys(slots).forEach(id => {
         // Check if this slot ID is occupied in current bookings
-        const isOccupied = currentBookings.some(booking => booking.parking_space === Number(id));
+        const isOccupied = newCurrentBookings.some(booking => booking.parking_space === Number(id));
         // Update only the boolean part of the slot tuple
+        if (isOccupied) {
+            console.log(id)
+        }
         slots[id][2] = isOccupied;
     });
 
     return slots;
 }
-
-    let slots: Slots = {
-    1: [13, 16, false],
-    2: [23, 16, false],
-    3: [33, 16, false],
-    4: [51, 16, false],
-    5: [60, 10.5, false],
-    6: [60, 15.5, false], //
-    7: [60, 33.5, false],
-    8: [51, 30, false],
-    9: [51, 36, false],
-
-    }
 
     let tileSize = 100;
 
@@ -98,14 +81,10 @@ function getCurrentBookings(bookings: Booking[]): Booking[] {
         tileSize = event.detail;
         slots = { ...slots };
     }
-
-    function handleBookingsChange(newBookings) {
-    bookings = newBookings;
-    slots = updateSlotsBasedOnBookings(bookings, slots);
-    console.log("Bookings updated:", bookings);
-    console.log("Slots updated:", slots);
-}
-
+    /*setInterval(() => {
+        bookings.set([generateRandomBooking(new Date), generateRandomBooking(new Date)]);
+        console.log('Bookings updated:', bookings);
+        }, 5000);   */ 
 </script>
 <div class="widget">
     <Map on:send-data={updateTileSize}/>
