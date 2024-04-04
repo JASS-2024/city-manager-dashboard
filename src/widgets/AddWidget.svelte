@@ -3,16 +3,24 @@
     const dispatch = createEventDispatcher();
     
     let showDropdown = false;
+    let container;
     let widgetOptions = ["Calendar", "Digital Twin", "Occupancy"];
     
     function addNewWidget(widgetType) {
       dispatch('addNewWidget', { widgetType });
       showDropdown = false;
     }
+
+    function onWindowClick(e) {
+    if (!container.contains(e.target))
+        showDropdown = false;
+  }
   </script>
+
+  <svelte:window on:click={onWindowClick} />
   
   <div class="widget">
-    <button on:click={() => showDropdown = !showDropdown}>+</button>
+    <button bind:this={container} on:click={() => showDropdown = !showDropdown}>+</button>
     
     {#if showDropdown}
         <div class="dropdown">
