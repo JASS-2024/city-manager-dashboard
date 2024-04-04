@@ -89,6 +89,14 @@
     grid-gap: 10px;
     padding: 10px;
   }
+
+  @media only screen and (max-width: 768px) {
+    #grid-container {
+      grid-template-columns: 100%;    
+    }
+  }
+
+
   .widget-wrapper {
     position: relative;
     background-color: white;
