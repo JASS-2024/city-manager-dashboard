@@ -8,8 +8,12 @@
     type Positions = {
         [key: string]: [number, number];
     };
+
+    let animating = false
     
     let tileSize = 10;
+
+    let currentRobotImage = "./assets/idleRobot.png"
     
     // Initialize the positions object with the defined type
     let positions: Positions = {
@@ -29,7 +33,66 @@
         //console.log(`x:${x}`)
         return (x / 10) * tile
     }
+
+    function setRobotImage(state: number) {
+                switch(state) {
+                    case 3: {
+                        currentRobotImage = "./assets/at3.png";
+                        break;
+                    }
+                    case 4: {
+                        currentRobotImage = "./assets/at4.png";
+                        break;
+                    }
+                    case 0: {
+                        currentRobotImage = "./assets/atCharge.png";
+                        break;
+                    }
+                    default: {
+                        currentRobotImage = "./assets/idleRobot.png";
+                        break;
+                    }
+
+                }
+    }
     
+    async function robotMovement(origin: number, target: number) {
+        const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+        do {
+            setRobotImage(origin);
+            await sleep(2000);
+            setRobotImage(target);
+            await sleep(2000);
+        } while(animating)
+    }
+
+    const updateRobotArm: OnMessageCallback = (topic, message) => {
+        console.log("received request to move arm")
+
+        const jsonObject = JSON.parse(message.toString());
+
+        // Safely access the x and y values
+        const status = jsonObject?.status;
+        const origin = jsonObject?.origin;
+        const target = jsonObject?.target;
+
+        if (status === "moving") {
+            if (typeof origin === "number" && typeof target === "number") {
+                console.log(`moving robot arm from ${origin} to ${target}`)
+                animating = true
+                robotMovement(origin, target);
+            }
+        } else if(status === "success") {
+            animating = false
+            setRobotImage(1);
+         } else {
+            console.log(`Invalid coordinates received for topic ${topic}`);
+        }
+        
+
+        
+    }
+
     const updateDuckiePosition: OnMessageCallback = (topic, message) => {
         const jsonObject = JSON.parse(message.toString());
 
@@ -49,6 +112,7 @@
     onMount(() => {
         subscribe("vehicle/+/status", updateDuckiePosition)
         subscribe("camera/+/status", updateDuckiePosition)
+        subscribe("robot-arm", updateRobotArm)
     })
 
     function estimateBackgroundSize(text, fontSize) {
@@ -62,6 +126,7 @@
     <div class="widget">
         <Map on:send-data={updateTileSize} />
         <svg>
+            <image href={currentRobotImage} x={mapPosX(35, tileSize)} y={mapPos(2, tileSize)} width={tileSize * 2} height={tileSize * 2} /> 
             {#each Object.entries(positions) as [topic, [x, y]]}
             {#if !topic.includes("camera")}
             <image href="./assets/duck.png" x={mapPosX(x, tileSize) - tileSize/2} y={mapPos(y, tileSize) - tileSize/2} width={tileSize / 2} height={tileSize / 2} /> 
