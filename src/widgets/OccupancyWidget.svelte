@@ -83,7 +83,7 @@ function getCurrentBookings(bookings: Booking[]): Booking[] {
     /*setInterval(() => {
         bookings.set([generateRandomBooking(new Date), generateRandomBooking(new Date)]);
         console.log('Bookings updated:', bookings);
-        }, 5000);   */ 
+        }, 5000);   */
 </script>
 <div class="widget">
     <Map on:send-data={updateTileSize}/>

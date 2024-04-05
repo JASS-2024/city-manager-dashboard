@@ -1,20 +1,19 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-  export let widgetId;
+  export let widgetIndex;
+  export let widgets;
 
   export let icon = "✏️"
   let show = false;
   let container;
-  let widgetNames = ["Calendar", "Digital Twin", "Occupancy", "Auction"];
-
   function onWindowClick(e) {
     if (!container.contains(e.target))
       show = false;
   }
 
-  function selectWidget(widgetName) {
-    dispatch('select', { widgetName, widgetId });
+  function selectWidget(id) {
+    dispatch('select', { widgetIndex, id });
     show = false;
   }
 </script>
@@ -25,8 +24,8 @@
   <button class="control-btn" on:click={() => show = !show }>{icon}</button>
   {#if show}
     <div class="options" style="position:absolute; top:100%; right:0;">
-      {#each widgetNames as widgetName}
-        <a on:click={() => selectWidget(widgetName)}>{widgetName}</a>
+    {#each Object.entries(widgets) as [id, [Widget, label]]}
+      <a on:click={() => selectWidget(id)}>{label}</a>
       {/each}
     </div>
   {/if}

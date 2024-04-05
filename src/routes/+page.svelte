@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
@@ -10,76 +10,83 @@
   import { getBookings } from '$lib/bookings';
   import { subscribe } from '$lib/mqtt';
 
-  let widgets = [
+  /*let widgets = [
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
     { id: 3, type: OccupancyWidget },
     { id: 4, type: AuctionWidget },
 
-  ];
+  ];*/
 
-  let widgetsShown = [
-    { id: 1, type: CalendarWidget },
-    { id: 2, type: TwinWidget },
-    { id: 3, type: OccupancyWidget },
-    { id: 4, type: AuctionWidget },
-
-  ];
+  let widgetsShown = [3, 1, 2, 4]
 
   const widgetTypeMap = {
-    "Calendar": CalendarWidget,
-    "Digital Twin": TwinWidget,
-    "Occupancy": OccupancyWidget,
-    "Auction": AuctionWidget
+    1: [CalendarWidget, "Calendar"],
+    2: [TwinWidget, "Digital Twin"],
+    3: [OccupancyWidget, "Occupancy"],
+    4: [AuctionWidget, "Auction"],
   };
 
-  function removeWidget(id) {
-    console.log(`Remove ${id}`)
-    widgetsShown = widgetsShown.filter(widget => widget.id !== id);
+  function removeWidget(index) {
+    widgetsShown.splice(index, 1);
+    widgetsShown = widgetsShown
   }
 
   function handleSelect(event) {
-    const { widgetName, widgetId } = event.detail;
-    const newWidgetType = widgetTypeMap[widgetName];
-
-    widgetsShown = widgetsShown.map(widget => 
-      widget.id === widgetId ? { ...widget, type: newWidgetType } : widget
-    );
+    const { widgetIndex, id } = event.detail;
+    widgetsShown[widgetIndex] = id;
   }
 
   
-  let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
   
-  function handleAddWidget({ detail }) {
-    const { widgetType } = detail;
-    const newWidgetComponent = widgetTypeMap[widgetType];
-    if (newWidgetComponent) {
-      widgetsShown = [...widgetsShown, { id: nextWidgetId++, type: newWidgetComponent }];
+  function handleAddWidget(event) {
+    const { id } = event.detail;
+    console.log(`adding ${id}`)
+    widgetsShown = [...widgetsShown, id];
+  }
+
+  const handleAddRequest: OnMessageCallback = (topic, message) => {
+    console.log("Received add request")
+    if (widgetsShown.length < 4) {
+        const jsonObject = JSON.parse(message.toString());
+
+        // Safely access the x and y values
+        let widget: number | 3 = 3; // Default to 3
+        if (typeof jsonObject.widget === 'number') {
+            widget = jsonObject.widget;
+        }
+        console.log(`adding ${widget}`)
+        widgetsShown = [...widgetsShown, widget];
     }
-  }
+    }
   
   onMount(async () => {
     getBookings()
     subscribe("dashboard/new_booking", getBookings)
+    subscribe("dashboard/add", handleAddRequest)
   })
 
 </script>
 
 
 <div id="grid-container">
-  {#each widgetsShown as {id, type}, index (id)}
+  {#each widgetsShown as id, index}
     <div class="widget-wrapper">
-      <svelte:component this={type}/>
-      <div class="controls">
-        <DeleteWidget on:click={() => removeWidget(id)}/>
-        <EditWidget widgetId={id} on:select={handleSelect}/>
+      <div class="top-controls">
+        <div class="header">{widgetTypeMap[id][1]}</div>
+        <div class="controls">
+          <DeleteWidget on:click={() => removeWidget(index)}/>
+          <EditWidget widgetIndex={index} widgets={widgetTypeMap} on:select={handleSelect}/>
+        </div>
       </div>
+      <svelte:component this={widgetTypeMap[id][0]}/>
     </div>
   {/each}
   {#if widgetsShown.length < 4}
-  <AddWidget on:addNewWidget={handleAddWidget} />
+    <AddWidget widgets={widgetTypeMap} on:addNewWidget={handleAddWidget} />
   {/if}
 </div>
+
 
 <style>
   #grid-container {
@@ -95,6 +102,23 @@
       grid-template-columns: 100%;    
     }
   }
+
+  .header {
+    display: flex;
+    font-weight: bold;
+    padding: 10px 10px 10px 35px;
+  }
+
+  .top-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 5px; 
+  left: 5px; /* Adjust as needed */
+  right: 5px; /* Adjust as needed */
+}
 
   .widget-wrapper {
     position: relative;
