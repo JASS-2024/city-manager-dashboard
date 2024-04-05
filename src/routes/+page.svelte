@@ -21,17 +21,10 @@
   let widgetsShown = [3, 1, 2, 4]
 
   const widgetTypeMap = {
-<<<<<<< HEAD
     1: [CalendarWidget, "Calendar Widget"],
     2: [TwinWidget, "Twin Widget"],
     3: [OccupancyWidget, "Occupancy Widget"],
     4: [AuctionWidget, "Auction Widget"],
-=======
-    "Calendar": CalendarWidget,
-    "Digital Twin": TwinWidget,
-    "Occupancy": OccupancyWidget,
-    "Auction": AuctionWidget
->>>>>>> 33145d33a2592dc6d3f81392a14d75d50df0f4f8
   };
 
   function removeWidget(index) {
@@ -45,26 +38,17 @@
   }
 
   
-<<<<<<< HEAD
-  // Temporarily HERE
-  onMount(getBookings)
-=======
-  let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
->>>>>>> 33145d33a2592dc6d3f81392a14d75d50df0f4f8
   
   function handleAddWidget(event) {
     const { id } = event.detail;
     console.log(`adding ${id}`)
     widgetsShown = [...widgetsShown, id];
   }
-<<<<<<< HEAD
-=======
   
   onMount(async () => {
     getBookings()
     subscribe("dashboard/new_booking", getBookings)
   })
->>>>>>> 33145d33a2592dc6d3f81392a14d75d50df0f4f8
 
 </script>
 
