@@ -2,11 +2,11 @@
   import { onMount } from 'svelte';
   import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
-  import TwinWidget from "../widgets/TwinWidget.svelte";
   import DeleteWidget from '../widgets/DeleteWidget.svelte';
   import EditWidget from '../widgets/EditWidget.svelte';
   import OccupancyWidget from '../widgets/OccupancyWidget.svelte';
   import AuctionWidget from '../widgets/AuctionWidget.svelte';
+  import TwinWidget from '../widgets/TwinWidget.svelte'
   import { getBookings } from '$lib/bookings';
   import { subscribe } from '$lib/mqtt';
 
@@ -95,7 +95,6 @@
       grid-template-columns: 100%;    
     }
   }
-
 
   .widget-wrapper {
     position: relative;
