@@ -2,14 +2,13 @@
   import { onMount } from 'svelte';
   import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
-  import TestWidget from "../widgets/TestWidget.svelte";
   import TwinWidget from "../widgets/TwinWidget.svelte";
   import DeleteWidget from '../widgets/DeleteWidget.svelte';
   import EditWidget from '../widgets/EditWidget.svelte';
-  import { getBookings } from '$lib/bookings';
   import OccupancyWidget from '../widgets/OccupancyWidget.svelte';
-  import AuctionWidget from  '../widgets/AuctionWidget.svelte';
-
+  import AuctionWidget from '../widgets/AuctionWidget.svelte';
+  import { getBookings } from '$lib/bookings';
+  import { subscribe } from '$lib/mqtt';
 
   /*let widgets = [
     { id: 1, type: CalendarWidget },
@@ -22,10 +21,17 @@
   let widgetsShown = [3, 1, 2, 4]
 
   const widgetTypeMap = {
+<<<<<<< HEAD
     1: [CalendarWidget, "Calendar Widget"],
     2: [TwinWidget, "Twin Widget"],
     3: [OccupancyWidget, "Occupancy Widget"],
     4: [AuctionWidget, "Auction Widget"],
+=======
+    "Calendar": CalendarWidget,
+    "Digital Twin": TwinWidget,
+    "Occupancy": OccupancyWidget,
+    "Auction": AuctionWidget
+>>>>>>> 33145d33a2592dc6d3f81392a14d75d50df0f4f8
   };
 
   function removeWidget(index) {
@@ -39,14 +45,26 @@
   }
 
   
+<<<<<<< HEAD
   // Temporarily HERE
   onMount(getBookings)
+=======
+  let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
+>>>>>>> 33145d33a2592dc6d3f81392a14d75d50df0f4f8
   
   function handleAddWidget(event) {
     const { id } = event.detail;
     console.log(`adding ${id}`)
     widgetsShown = [...widgetsShown, id];
   }
+<<<<<<< HEAD
+=======
+  
+  onMount(async () => {
+    getBookings()
+    subscribe("dashboard/new_booking", getBookings)
+  })
+>>>>>>> 33145d33a2592dc6d3f81392a14d75d50df0f4f8
 
 </script>
 
@@ -74,6 +92,14 @@
     grid-gap: 10px;
     padding: 10px;
   }
+
+  @media only screen and (max-width: 768px) {
+    #grid-container {
+      grid-template-columns: 100%;    
+    }
+  }
+
+
   .widget-wrapper {
     position: relative;
     background-color: white;

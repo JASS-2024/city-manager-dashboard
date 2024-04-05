@@ -7,7 +7,6 @@
   export let icon = "✏️"
   let show = false;
   let container;
-
   function onWindowClick(e) {
     if (!container.contains(e.target))
       show = false;
