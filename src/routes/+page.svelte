@@ -21,10 +21,10 @@
   let widgetsShown = [3, 1, 2, 4]
 
   const widgetTypeMap = {
-    1: [CalendarWidget, "Calendar Widget"],
-    2: [TwinWidget, "Twin Widget"],
-    3: [OccupancyWidget, "Occupancy Widget"],
-    4: [AuctionWidget, "Auction Widget"],
+    1: [CalendarWidget, "Calendar"],
+    2: [TwinWidget, "Digital Twin"],
+    3: [OccupancyWidget, "Occupancy"],
+    4: [AuctionWidget, "Auction"],
   };
 
   function removeWidget(index) {
@@ -72,17 +72,21 @@
 <div id="grid-container">
   {#each widgetsShown as id, index}
     <div class="widget-wrapper">
-      <svelte:component this={widgetTypeMap[id][0]}/>
-      <div class="controls">
-        <DeleteWidget on:click={() => removeWidget(index)}/>
-        <EditWidget widgetIndex={index} widgets={widgetTypeMap} on:select={handleSelect}/>
+      <div class="top-controls">
+        <div class="header">{widgetTypeMap[id][1]}</div>
+        <div class="controls">
+          <DeleteWidget on:click={() => removeWidget(index)}/>
+          <EditWidget widgetIndex={index} widgets={widgetTypeMap} on:select={handleSelect}/>
+        </div>
       </div>
+      <svelte:component this={widgetTypeMap[id][0]}/>
     </div>
   {/each}
   {#if widgetsShown.length < 4}
-  <AddWidget widgets={widgetTypeMap} on:addNewWidget={handleAddWidget} />
+    <AddWidget widgets={widgetTypeMap} on:addNewWidget={handleAddWidget} />
   {/if}
 </div>
+
 
 <style>
   #grid-container {
@@ -99,6 +103,22 @@
     }
   }
 
+  .header {
+    display: flex;
+    font-weight: bold;
+    padding: 10px 10px 10px 35px;
+  }
+
+  .top-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 5px; 
+  left: 5px; /* Adjust as needed */
+  right: 5px; /* Adjust as needed */
+}
 
   .widget-wrapper {
     position: relative;
