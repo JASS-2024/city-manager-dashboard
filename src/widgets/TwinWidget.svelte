@@ -47,11 +47,15 @@
                 {start: {x: 6, y: 2}, end: {x: 5, y : 2}, background: "", flip: false},
                 {start: {x: 5, y: 2}, end: {x: 4, y : 2}, background: "", flip: false},
             ],
-            }  
+        },
+        "WLEDTranslator/52": {
+            segs: [
+                {start: {x: 7, y: 2}, end: {x: 8, y : 2}, background: "", flip: false},
+                {start: {x: 7, y: 3}, end: {x: 8, y : 3}, background: "", flip: true},
+            ]
+        }
     }
 
-
-    
     const update_leds = (colourArr: Uint8Array, source: keyof typeof ledStrips) => {
         if (76 == colourArr[0])  {
             const LEDS_PER_SEG = 37
