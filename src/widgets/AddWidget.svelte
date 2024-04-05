@@ -1,13 +1,15 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
+    export let widgets
     
     let showDropdown = false;
     let container;
-    let widgetOptions = ["Calendar", "Digital Twin", "Occupancy"];
+    //let widgetOptions = ["Calendar", "Digital Twin", "Occupancy"];
     
-    function addNewWidget(widgetType) {
-      dispatch('addNewWidget', { widgetType });
+    function addNewWidget(id) {
+        console.log(`id to add: ${id}`)
+      dispatch('addNewWidget', { id });
       showDropdown = false;
     }
 
@@ -24,8 +26,8 @@
     
     {#if showDropdown}
         <div class="dropdown">
-        {#each widgetOptions as option}
-            <div on:click={() => addNewWidget(option)}>{option}</div>
+        {#each Object.entries(widgets) as [id, [widget, label]]}
+            <div on:click={() => addNewWidget(id)}>{label}</div>
         {/each}
         </div>
     {/if}

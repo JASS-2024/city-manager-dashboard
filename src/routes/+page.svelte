@@ -11,71 +11,58 @@
   import AuctionWidget from  '../widgets/AuctionWidget.svelte';
 
 
-  let widgets = [
+  /*let widgets = [
     { id: 1, type: CalendarWidget },
     { id: 2, type: TwinWidget },
     { id: 3, type: OccupancyWidget },
     { id: 4, type: AuctionWidget },
 
-  ];
+  ];*/
 
-  let widgetsShown = [
-    { id: 1, type: CalendarWidget },
-    { id: 2, type: TwinWidget },
-    { id: 3, type: OccupancyWidget },
-    { id: 4, type: AuctionWidget },
-
-  ];
+  let widgetsShown = [3, 1, 2, 4]
 
   const widgetTypeMap = {
-    "Calendar": CalendarWidget,
-    "Digital Twin": TwinWidget,
-    "Occupancy": OccupancyWidget,
-
+    1: [CalendarWidget, "Calendar Widget"],
+    2: [TwinWidget, "Twin Widget"],
+    3: [OccupancyWidget, "Occupancy Widget"],
+    4: [AuctionWidget, "Auction Widget"],
   };
 
-  function removeWidget(id) {
-    console.log(`Remove ${id}`)
-    widgetsShown = widgetsShown.filter(widget => widget.id !== id);
+  function removeWidget(index) {
+    widgetsShown.splice(index, 1);
+    widgetsShown = widgetsShown
   }
 
   function handleSelect(event) {
-    const { widgetName, widgetId } = event.detail;
-    const newWidgetType = widgetTypeMap[widgetName];
-
-    widgetsShown = widgetsShown.map(widget => 
-      widget.id === widgetId ? { ...widget, type: newWidgetType } : widget
-    );
+    const { widgetIndex, id } = event.detail;
+    widgetsShown[widgetIndex] = id;
   }
 
   
   // Temporarily HERE
   onMount(getBookings)
-
-  let nextWidgetId = Math.max(...widgetsShown.map(w => w.id)) + 1;
   
-  function handleAddWidget({ detail }) {
-    const { widgetType } = detail;
-    const newWidgetComponent = widgetTypeMap[widgetType];
-    if (newWidgetComponent) {
-      widgetsShown = [...widgetsShown, { id: nextWidgetId++, type: newWidgetComponent }];
-    }
+  function handleAddWidget(event) {
+    const { id } = event.detail;
+    console.log(`adding ${id}`)
+    widgetsShown = [...widgetsShown, id];
   }
+
 </script>
 
 
 <div id="grid-container">
-  {#each widgetsShown as {id, type}, index (id)}
+  {#each widgetsShown as id, index}
     <div class="widget-wrapper">
-      <svelte:component this={type}/>
+      <svelte:component this={widgetTypeMap[id][0]}/>
       <div class="controls">
-        <DeleteWidget on:click={() => removeWidget(id)}/>
-        <EditWidget widgetId={id} on:select={handleSelect}/>
+        <DeleteWidget on:click={() => removeWidget(index)}/>
+        <EditWidget widgetIndex={index} widgets={widgetTypeMap} on:select={handleSelect}/>
       </div>
     </div>
   {/each}
   {#if widgetsShown.length < 4}
-  <AddWidget on:addNewWidget={handleAddWidget} />
+  <AddWidget widgets={widgetTypeMap} on:addNewWidget={handleAddWidget} />
   {/if}
 </div>
 
