@@ -40,7 +40,7 @@
         if (typeof x === "number" && typeof y === "number") {
             // Store the coordinates as an array [x, y] against the topic key
             positions = {...positions, [topic]: [x,y]}
-            console.log(`x: ${x} y: ${y}`)
+            //console.log(`x: ${x} y: ${y}`)
         } else {
             console.log(`Invalid coordinates received for topic ${topic}`);
         }

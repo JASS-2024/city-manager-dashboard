@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import AddWidget from "../widgets/AddWidget.svelte";
   import CalendarWidget from "../widgets/CalendarWidget.svelte";
@@ -44,10 +44,26 @@
     console.log(`adding ${id}`)
     widgetsShown = [...widgetsShown, id];
   }
+
+  const handleAddRequest: OnMessageCallback = (topic, message) => {
+    console.log("Received add request")
+    if (widgetsShown.length < 4) {
+        const jsonObject = JSON.parse(message.toString());
+
+        // Safely access the x and y values
+        let widget: number | 3 = 3; // Default to 3
+        if (typeof jsonObject.widget === 'number') {
+            widget = jsonObject.widget;
+        }
+        console.log(`adding ${widget}`)
+        widgetsShown = [...widgetsShown, widget];
+    }
+    }
   
   onMount(async () => {
     getBookings()
     subscribe("dashboard/new_booking", getBookings)
+    subscribe("dashboard/add", handleAddRequest)
   })
 
 </script>
