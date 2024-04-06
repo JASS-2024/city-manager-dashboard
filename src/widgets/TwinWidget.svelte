@@ -34,18 +34,11 @@
                 {start: {x: 4, y: 2}, end: {x: 3, y : 2}, background: "", flip: false},
                 {start: {x: 3, y: 2}, end: {x: 2, y : 2}, background: "", flip: false},
                 {start: {x: 2, y: 2}, end: {x: 1, y : 2}, background: "", flip: false},
-
                 {start: {x: 1, y: 2}, end: {x: 1, y : 1}, background: "", flip: true},
-                
                 {start: {x: 1, y: 1}, end: {x: 2, y : 1}, background: "", flip: true},
                 {start: {x: 2, y: 1}, end: {x: 3, y : 1}, background: "", flip: true},
                 {start: {x: 3, y: 1}, end: {x: 4, y : 1}, background: "", flip: true},
                 {start: {x: 4, y: 1}, end: {x: 5, y : 1}, background: "", flip: true},
-                {start: {x: 5, y: 1}, end: {x: 6, y : 1}, background: "", flip: true},
-        
-                {start: {x: 6, y: 1}, end: {x: 6, y : 2}, background: "", flip: false},
-                {start: {x: 6, y: 2}, end: {x: 5, y : 2}, background: "", flip: false},
-                {start: {x: 5, y: 2}, end: {x: 4, y : 2}, background: "", flip: false},
             ],
         },
         "WLEDTranslator/52": {
@@ -53,7 +46,15 @@
                 {start: {x: 7, y: 2}, end: {x: 8, y : 2}, background: "", flip: false},
                 {start: {x: 7, y: 3}, end: {x: 8, y : 3}, background: "", flip: true},
             ]
+        },
+        "WLEDTranslator/156": {
+            segs: [
+                {start: {x: 5, y: 1}, end: {x: 6, y : 1}, background: "", flip: true},
+                {start: {x: 6, y: 1}, end: {x: 6, y : 2}, background: "", flip: false},
+                {start: {x: 6, y: 2}, end: {x: 5, y : 2}, background: "", flip: false},
+                {start: {x: 5, y: 2}, end: {x: 4, y : 2}, background: "", flip: false}            ]
         }
+
     }
 
     const update_leds = (colourArr: Uint8Array, source: keyof typeof ledStrips) => {
