@@ -18,7 +18,7 @@
 
   ];*/
 
-  let widgetsShown = [3, 1, 2, 4]
+  let widgetsShown = [3, 1, 4]
 
   const widgetTypeMap = {
     1: [CalendarWidget, "Calendar"],
