@@ -24,17 +24,21 @@ let currentBookingPrices = [
   // {name: 9, lastPrice: 0, price: 0},
 ]
 function updateCurrentBookingPrices(bookings: Bookings[]) {
+  console.log("updating the bookinghs")
+  console.log(bookings)
   let bookingsCurrent = bookings.filter(booking =>
       booking.time_period.start_time <= new Date() &&
       booking.time_period.end_time >= new Date()
     );
-  return currentBookingPrices.map(currentBookingPrice => {
-    let thisBooking = bookingsCurrent.filter(booking => booking.parking_space == currentBookingPrice.name)
-    if (thisBooking.length == 0) return currentBookingPrice;
-    currentBookingPrice.lastPrice = currentBookingPrice.price;
-    currentBookingPrice.price = thisBooking[0].price;
-    return currentBookingPrice;
-  })
+    console.log(bookingsCurrent)
+    return currentBookingPrices.map(currentBookingPrice => {
+      let thisBooking = bookingsCurrent.filter(booking => booking.parking_space == currentBookingPrice.name)
+      console.log(thisBooking)
+      if (thisBooking.length == 0) return currentBookingPrice;
+      currentBookingPrice.lastPrice = currentBookingPrice.price;
+      currentBookingPrice.price = thisBooking[0].price;
+      return currentBookingPrice;
+    })
 }
 
 bookings.subscribe((bookings) => {currentBookingPrices = updateCurrentBookingPrices(bookings)})

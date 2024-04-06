@@ -35,8 +35,8 @@ export const getBookings = async () => {
             "end_time": new Date(booking["time_period"]["end_time"] * 1000)
         },
         "licence_plate": booking["licence_plate"],
-        "parking_space": 1,
-        "price": 100
+        "parking_space": booking["parking_space"],
+        "price": booking["price"]
     })
     ))
 };
